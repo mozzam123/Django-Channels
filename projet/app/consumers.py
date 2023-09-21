@@ -4,6 +4,7 @@ import json
 class MyConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         await self.accept()
+        print('*****************', self.scope)
         print('Connection Accepted !!!')
 
     async def disconnect(self, close_code):
@@ -11,13 +12,13 @@ class MyConsumer(AsyncWebsocketConsumer):
         print('Connection Disconnected !!!')
 
 
+
     async def receive(self, text_data=None):
-        if text_data:
+        data = text_data
+        if data:
             try:
-                text_data_json = json.loads(text_data)
-                message = text_data_json["message"]
-                await self.send(text_data=json.dumps({"message": message}))
-            except json.JSONDecodeError as e:
-                print('Received invalid JSON data:', text_data)
+                await self.send(text_data=data)
+            except Exception as e:
+                print(e)
         else:
             print('Received empty text_data')
