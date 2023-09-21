@@ -4,9 +4,12 @@ import json
 class MyConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         await self.accept()
+        print('Connection Accepted !!!')
 
     async def disconnect(self, close_code):
-        pass
+        await self.close()
+        print('Connection Disconnected !!!')
+
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
